@@ -1,0 +1,38 @@
+Sprites_List: [Player, Monster, Gem]
+Player:
+    SpriteSheet: /Resources/Textures/duotone.png
+    Anim_Names: [run, idle, jump, die]
+    run:
+        Offset: {x: 0, y: 0}
+        Size: {w: 32, h: 32}
+        Frame_Durations: [80, 80, 80, 80, 80, 80]
+    idle:
+        Offset: {x: 0, y: 32}
+        Size: {w: 32, h: 32}
+        Frame_Durations: [80, 120, 80, 30, 30, 130] #Notice the different durations!
+    jump:
+        Offset: {x: 0, y: 64}
+        Size: {w: 32, h: 32}
+        Frame_Durations: [80, 80, 120, 80, 80, 0] #Can I say 0 mean no skipping?
+    die:
+        Offset: {x: 0, y: 192} #192? Yup, it is the last row in that sheet.
+        Size: {w: 32, h: 32}
+        Frame_Durations: [80, 80, 80, 80, 80] #this one has only 5 frames.
+Monster: #lol that lam nam
+    SpriteSheet: /Resources/Textures/duotone.png
+    Anim_Names: [hover, die]
+    hover:
+        Offset: {x: 0, y: 128}
+        Size: {w: 32, h: 32}
+        Frame_Durations: [120, 80, 120, 80]
+    die:
+        Offset: {x: 0, y: 160}
+        Size: {w: 32, h: 32}
+        Frame_Durations: [80, 80, 80, 80, 80]
+Gem:
+    SpriteSheet: /Resources/Textures/duotone.png
+    Anim_Names: [shine]
+    shine:
+        Offset: {x: 0, y: 96}
+        Size: {w: 32, h: 32}
+        Frame_Durations: [80, 80, 80, 80, 80, 80]
