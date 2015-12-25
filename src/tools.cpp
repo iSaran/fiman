@@ -13,6 +13,7 @@ namespace fiman
       {
         /**
          * Check if the current line has no characters
+         * and erase these empty lines
          */
         if (vec[i].find_first_not_of(' ') == std::string::npos)
         {

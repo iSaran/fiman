@@ -153,18 +153,16 @@ namespace fiman
     int level;
 
     /**
-     * Parse the each element of the above vector
+     * Parse each element of the node_names vector
      * as an object fiman::Node
      */
     for (int i = 0; i < node_names.size(); i++)
     {
-
       /**
        * Find the level of each node based on starting dots
        * and remove the dots from the names
        */
       level = fiman::tools::recognise_starting_dots(node_names[i]);
-      
       
       //std::cout << "-------------------------------------" << std::endl;
       //std::cout << ".I am processing the node " << node_names[i] << std::endl;
