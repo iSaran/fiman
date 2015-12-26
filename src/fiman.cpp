@@ -225,4 +225,10 @@ namespace fiman
       }
     }
   }
+
+  Flow::Flow()
+  {
+    
+  }
+  Flow::~Flow() {}
 };

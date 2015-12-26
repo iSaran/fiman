@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <ctime> // tm, time in fiman::Flow
 
 #include "yaml-cpp/yaml.h"
 
@@ -11,7 +12,7 @@ namespace fiman
 
   class Owner
   {
-   public:
+    public:
       std::string name;
       std::string last_name;
       Owner();
@@ -39,13 +40,28 @@ namespace fiman
       void print();
   };
 
+  class Flow
+  {
+    private:
+      fiman::Node *node;
+      std::string comment;
+      float amount;
+      bool inflow;
+      std::tm date;
+
+    public:
+      Flow();
+      ~Flow();
+  };
+
   class Account
   {
     public:
       std::string name;
       std::vector<fiman::Node> tree;
-      bool file_is_loaded;
+      //std::vector<fiman::Flow> flows;
 
+      bool file_is_loaded;
       bool load_data(std::string file, std::string name);
       bool load_tree(std::string file);
       int recognise_dots(std::string &str);
@@ -65,6 +81,7 @@ namespace fiman
 
       void create_tree();
   };
+
 
 };
 #endif // FIMAN_H
