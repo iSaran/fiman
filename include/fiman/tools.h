@@ -4,7 +4,7 @@
 #include <string> // std::string
 #include <iostream> // std::cout, std::endl;
 
-const bool debug_enabled = false;
+const bool debug_enabled = true;
 #define DEBUG(x) do { \
  if (debug_enabled) \
   {\
