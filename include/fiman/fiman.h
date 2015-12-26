@@ -20,6 +20,9 @@ namespace fiman
 
   class Node
   {
+    private:
+      float status;
+
     public:
       std::string local_id;
       std::string global_id;

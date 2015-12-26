@@ -36,6 +36,7 @@ namespace fiman
     this->level = level_;
 
     this->number_of_children = 0;
+    this->status = 0;
 
     //this->number_of_children = child.size();
   }
