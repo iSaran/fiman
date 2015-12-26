@@ -10,4 +10,5 @@ int main()
   std::cout << "Number of nodes: " << account.tree.size() << std::endl;
   for (int i = 0; i < account.tree.size(); i++)
     account.tree[i].print();
+  account.tree[account.id["010000"]].print();
 }

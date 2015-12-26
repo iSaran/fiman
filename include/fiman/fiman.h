@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <ctime> // tm, time in fiman::Flow
+#include <map> //std::map in fiman::Account
 
 #include "yaml-cpp/yaml.h"
 
@@ -60,8 +61,11 @@ namespace fiman
       std::string name;
       std::vector<fiman::Node> tree;
       //std::vector<fiman::Flow> flows;
+      std::map<std::string, int> id;
 
       bool file_is_loaded;
+
+
       bool load_data(std::string file, std::string name);
       bool load_tree(std::string file);
       int recognise_dots(std::string &str);

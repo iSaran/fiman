@@ -222,6 +222,7 @@ namespace fiman
             break;
           }
         }
+        this->id[tree[i].global_id] = i;
       }
     }
   }
