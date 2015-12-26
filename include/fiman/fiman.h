@@ -30,8 +30,9 @@ namespace fiman
       int level;
       int tree_id;
 
-      Node(fiman::Node *par);
+      Node(std::string name_, int level_);
       void set_local_id(std::string id);
+      void set_parent(fiman::Node *par);
       void print();
   };
 

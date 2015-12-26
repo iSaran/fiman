@@ -30,34 +30,51 @@ namespace fiman
   }
   Owner::Owner() {}
   Owner::~Owner() {}
-  Node::Node(fiman::Node *parent_)
+  Node::Node(std::string name_, int level_) 
   {
-    this->parent = parent_;
+    this->name = name_;
+    this->level = level_;
+
     this->number_of_children = 0;
 
-    if (parent != NULL)
+    //this->number_of_children = child.size();
+  }
+
+  void Node::set_parent(fiman::Node *parent_)
+  {
+
+    if (this->level != 0)
     {
+      this->parent = parent_;
+      DEBUG("I will create a non-root node with name "+this->name);
+      DEBUG("I push back this to parent's (" + this->parent->name + ")  children");
+      DEBUG("My parent has address " << this->parent );
       parent->child.push_back(this);
-      level = parent->level + 1;
+      DEBUG("I set my level and now is " << level);
 
       if (parent->number_of_children < 10)
       {
         local_id = "0" + std::to_string(parent->number_of_children);
+        
+        DEBUG("I set the local id to "+local_id);
       }
       else
       {
         local_id = std::to_string(parent->number_of_children);
+        DEBUG("I set the local id to "+local_id);
       }
       global_id = parent->global_id + local_id;
+      DEBUG("I set the global id to "+global_id);
       parent->number_of_children = parent->child.size();
+      DEBUG("I set the number of children of my parent to " << parent->number_of_children);
     }
     else
     {
-      this->level = 0;
+      DEBUG("I created a root node with name " + this->name);
+      this->parent = NULL;
     }
-
-    //this->number_of_children = child.size();
   }
+
   void Node::set_local_id(std::string id)
   {
     local_id = id;
@@ -68,19 +85,36 @@ namespace fiman
   }
   void Node::print()
   {
-    std::cout << "---- Node Details Print ----" << std::endl;
-    std::cout << "Node #" << this->tree_id << std::endl;
-    std::cout << "Node name: " << this->name << std::endl;
-    std::cout << "Node local ID: " << this->local_id << std::endl;
-    std::cout << "Node global ID: " << this->global_id << std::endl;
-    std::cout << "Node level ID: " << this->level << std::endl;
-    std::cout << "Node number of children: " << this->number_of_children << std::endl;
-    std::cout << "Node's parent is Node #" << this->parent->tree_id;// << ": " << this->parent->name << " [" << this->parent->global_id << "]"<< std::endl;
-    for (int i = 0; i < this->number_of_children; i++)
+    if (this->level != 0)
     {
-      //std::cout << "Node's child is Node #" << this->child[i]->tree_id << ": " << this->child[i]->name << " [" << this->child[i]->global_id << "]"<< std::endl;
+      std::cout << "---- Node Details Print ----" << std::endl;
+      std::cout << "Node #" << this->tree_id << std::endl;
+      std::cout << "Node name: " << this->name << std::endl;
+      std::cout << "Node local ID: " << this->local_id << std::endl;
+      std::cout << "Node global ID: " << this->global_id << std::endl;
+      std::cout << "Node level: " << this->level << std::endl;
+      std::cout << "Node number of children: " << this->number_of_children << std::endl;
+      std::cout << "Node's parent is Node #" << this->parent << ": " << this->parent->name << std::endl;
+      for (int i = 0; i < this->number_of_children; i++)
+      {
+        std::cout << "Node's child is Node #" << this->child[i]->tree_id << ": " << this->child[i]->name << " [" << this->child[i]->global_id << "]"<< std::endl;
+      }
+      std::cout << "----------------------------" << std::endl;
     }
-      //std::cout << "----------------------------" << std::endl;
+    else
+    {
+      std::cout << "---- Node Details Print ----" << std::endl;
+      std::cout << "Node #" << this->tree_id << std::endl;
+      std::cout << "Node name: " << this->name << std::endl;
+      std::cout << "Node level: " << this->level << std::endl;
+      std::cout << "Node number of children: " << this->number_of_children << std::endl;
+      std::cout << "Node's parent is Node NULL" << std::endl;
+      for (int i = 0; i < this->number_of_children; i++)
+      {
+        std::cout << "Node's child is Node #" << this->child[i]->tree_id << ": " << this->child[i]->name << " [" << this->child[i]->global_id << "]"<< std::endl;
+      }
+      std::cout << "----------------------------" << std::endl;
+    }
   }
   Account::Account()
   {
@@ -158,48 +192,32 @@ namespace fiman
      */
     for (int i = 0; i < node_names.size(); i++)
     {
-      /**
-       * Find the level of each node based on starting dots
-       * and remove the dots from the names
-       */
       level = fiman::tools::recognise_starting_dots(node_names[i]);
-      
-      //std::cout << "-------------------------------------" << std::endl;
-      //std::cout << ".I am processing the node " << node_names[i] << std::endl;
+      fiman::Node temp_node(node_names[i], level);
+      temp_node.tree_id = i;
+      this->tree.push_back(temp_node);
+    }
 
-      /* Check if the node is the root (the root has no parent) */
-      if (level == 0)
+    /**
+     * Find the level of each node based on starting dots
+     * and remove the dots from the names
+     */
+    
+    for (int i = 0; i < this->tree.size(); i++)
+    {
+      if ( this->tree[i].level != 0)
       {
-        //std::cout << "..OK is root with level is 0!"  << std::endl;
-        //std::cout << "..The tree size now is " << this->tree.size()  << std::endl;
-        /* Root has no parent (iniliaze with NULL) */
-        fiman::Node temp_node(NULL);
-        temp_node.name = node_names[i];
-        temp_node.level = level;
-        temp_node.tree_id = i;
-        this->tree.push_back(temp_node);
-      }
-      else
-      {
-        //std::cout << "..OK is a regular node with level " << level  << std::endl;
         /**
          * The node's parent can be found if we search the list
          * of the nodes backwards. The first node whose level is
          * the node's level minus 1 is its parent
          */
-        //std::cout << "..The tree size now is " << this->tree.size()  << std::endl;
-        for (int j = this->tree.size() - 1; j >= 0; j--)
+        for (int j = i; j >= 0; j--)
         {
-          //std::cout << "...Checking the " << j  << "-th element of tree with level " << this->tree[j].level << " and now level is " << level -1 << std::endl;
-          if (this->tree[j].level == (level - 1))
+          if (this->tree[j].level == (this->tree[i].level - 1))
           {
-            //std::cout << "....I found the parent " << this->tree[j].name << " with level " << this->tree[j].level  << std::endl;
-            //std::cout << "Parent of " << node_names[i] << "is " << this->tree[j].name << std::endl;
-            fiman::Node temp_node(&tree[j]);
-            temp_node.name = node_names[i];
-            temp_node.level = level;
-            temp_node.tree_id = i;
-            tree.push_back(temp_node);
+            DEBUG("I set the parent of " << tree[i].name << " to be " << tree[j].name);
+            this->tree[i].set_parent(&this->tree[j]);
             break;
           }
         }
