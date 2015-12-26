@@ -1,5 +1,6 @@
 #include <fiman/fiman.h>
 #include <fiman/tools.h>
+#include <iomanip> // std::setprecision Flow::Flow()
 
 #include <fstream>
 
@@ -37,7 +38,7 @@ namespace fiman
     this->number_of_children = -1;
     this->status = 0;
   }
-  Node::Node(std::string name_, int level_) 
+  Node::Node(std::string name_, int level_)
   {
     this->name = name_;
     this->level = level_;
@@ -63,7 +64,7 @@ namespace fiman
       if (parent->number_of_children < 10)
       {
         local_id = "0" + std::to_string(parent->number_of_children);
-        
+
         DEBUG("I set the local id to "+local_id);
       }
       else
@@ -210,7 +211,7 @@ namespace fiman
      * Find the level of each node based on starting dots
      * and remove the dots from the names
      */
-    
+
     for (int i = 0; i < this->tree.size(); i++)
     {
       if ( this->tree[i].level != 0)
@@ -234,9 +235,34 @@ namespace fiman
     }
   }
 
-  Flow::Flow(std::string id_, float amount_, std::string comment_, tm date)
+  Flow::Flow(fiman::Node *node_, float amount_, std::string comment_ = "")
   {
-    node = new Node();
+    node = node_;
+    amount = amount_;
+    comment = comment_;
+
+    /* Get current time */
+    time_t raw_current_time;
+    std::time(&raw_current_time);
+    date = localtime(&raw_current_time);
+
+    /* Create [h]uman readable current date */
+    h_date = std::to_string(date->tm_mday) + "/" + std::to_string(date->tm_mon + 1) + "/" +  std::to_string(date->tm_year + 1900);
+
+    /* Create [h]uman readable amount (with 2 decimals) */
+    std::ostringstream stream;
+    stream << std::fixed << std::setprecision(2) << this->amount;
+    h_amount = stream.str();
+
+    /* Create [h]uman readable flow for writing in csv file */
+    h_flow = this->h_date + "," + this->node->global_id + "," + h_amount + "," + this->comment;
   }
+
+  void Flow::print()
+  {
+    /* Print [h]uman readable flow */
+    std::cout << h_flow << std::endl;
+  }
+
   Flow::~Flow() {}
 };

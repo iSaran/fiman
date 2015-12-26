@@ -1,5 +1,4 @@
 #include <fiman/tools.h>
-
 namespace fiman
 {
   namespace tools
@@ -39,5 +38,6 @@ namespace fiman
 
       return dot_counter;
     }
+
   }
 }

@@ -49,11 +49,15 @@ namespace fiman
       std::string comment;
       float amount;
       bool inflow;
-      std::tm date;
+      std::tm *date;
+      std::string h_date;
+      std::string h_flow;
+      std::string h_amount;
 
     public:
       Flow();
-      Flow(std::string id_, float amount_, std::string comment_, tm date);
+      Flow(fiman::Node *node, float amount_, std::string comment_);
+      void print();
       ~Flow();
   };
 
