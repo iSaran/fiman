@@ -40,6 +40,7 @@ namespace fiman
       void set_local_id(std::string id);
       void set_parent(fiman::Node *par);
       void print();
+      void print_oneliner();
   };
 
   class Flow
@@ -55,7 +56,6 @@ namespace fiman
       std::string h_amount;
 
     public:
-      Flow();
       Flow(fiman::Node *node, float amount_, std::string comment_);
       void print();
       ~Flow();
@@ -75,6 +75,7 @@ namespace fiman
       bool load_data(std::string file, std::string name);
       bool load_tree(std::string file);
       int recognise_dots(std::string &str);
+      void print_tree();
 
       Account();
       ~Account();

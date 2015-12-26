@@ -22,3 +22,18 @@ target_include_directories( main
 target_link_libraries( main
   yaml-cpp
 )
+
+add_executable( fiman
+  src/fiman_terminal.cpp
+  src/fiman.cpp
+  src/tools.cpp
+)
+
+target_include_directories( fiman
+  PUBLIC
+  ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+target_link_libraries( fiman
+  yaml-cpp
+)

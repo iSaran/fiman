@@ -125,11 +125,19 @@ namespace fiman
       std::cout << "----------------------------" << std::endl;
     }
   }
+
+  void Node::print_oneliner()
+  {
+    std::cout << this->global_id << "\t" << this->name << std::endl; 
+  }
+
   Account::Account()
   {
     file_is_loaded = false;
   }
+
   Account::~Account() {};
+
   bool Account::load_data(std::string file, std::string name)
   {
     if (file_is_loaded)
@@ -161,9 +169,11 @@ namespace fiman
 
     //std::string m_psSpritesheetPath = spriteNode["fds"].as<std::string>();
   }
+
   int Account::recognise_dots(std::string &str)
   {
   }
+
   bool Account::load_tree(std::string file_)
   {
     std::vector<std::string> node_names;
@@ -233,6 +243,12 @@ namespace fiman
         this->id[tree[i].global_id] = i;
       }
     }
+  }
+
+  void Account::print_tree()
+  {
+    for (int i = 0; i < this->tree.size(); i++)
+      this->tree[i].print_oneliner();
   }
 
   Flow::Flow(fiman::Node *node_, float amount_, std::string comment_ = "")
