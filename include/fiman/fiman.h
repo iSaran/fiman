@@ -35,6 +35,7 @@ namespace fiman
       int level;
       int tree_id;
 
+      Node();
       Node(std::string name_, int level_);
       void set_local_id(std::string id);
       void set_parent(fiman::Node *par);
@@ -52,6 +53,7 @@ namespace fiman
 
     public:
       Flow();
+      Flow(std::string id_, float amount_, std::string comment_, tm date);
       ~Flow();
   };
 

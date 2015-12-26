@@ -30,6 +30,13 @@ namespace fiman
   }
   Owner::Owner() {}
   Owner::~Owner() {}
+  Node::Node()
+  {
+    this->name = "empty_node";
+    this->level = -1;
+    this->number_of_children = -1;
+    this->status = 0;
+  }
   Node::Node(std::string name_, int level_) 
   {
     this->name = name_;
@@ -227,9 +234,9 @@ namespace fiman
     }
   }
 
-  Flow::Flow()
+  Flow::Flow(std::string id_, float amount_, std::string comment_, tm date)
   {
-    
+    node = new Node();
   }
   Flow::~Flow() {}
 };
