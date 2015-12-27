@@ -128,7 +128,7 @@ namespace fiman
 
   void Node::print_oneliner()
   {
-    std::cout << this->global_id << "\t" << this->name << std::endl; 
+    std::cout << this->global_id << "__________" << this->name << std::endl; 
   }
 
   Account::Account()
@@ -271,13 +271,27 @@ namespace fiman
     h_amount = stream.str();
 
     /* Create [h]uman readable flow for writing in csv file */
-    h_flow = this->h_date + "," + this->node->global_id + "," + h_amount + "," + this->comment;
+    h_flow = this->h_date + "," + this->node->global_id + "," + this->node->name + "," + h_amount + "," + this->comment;
   }
 
   void Flow::print()
   {
     /* Print [h]uman readable flow */
     std::cout << h_flow << std::endl;
+  }
+
+  void Flow::write_to_file(std::string file_, fiman::Flow flow_)
+  {
+    std::string path = "../resource/" + file_ + ".csv";
+    std::ofstream file(path, std::ios::app);
+
+    std::cout << "Written flow to file " << file_ << ".csv" << " file..." << std::endl;
+
+    if (file.is_open())
+    {
+      file << h_flow << std::endl;
+    }
+    file.close();
   }
 
   Flow::~Flow() {}

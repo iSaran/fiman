@@ -2,13 +2,16 @@
 #include <fiman/fiman.h>
 #include <fiman/tools.h>
 
+const std::string tree_file = "iason";
+const std::string flow_file = "flows";
+
 int main()
 {
   int option;
   fiman::Account account;
   std::cout << "FiMan is initializing..." << std::endl;
-  std::cout << "Loading tree from tree file...";
-  account.load_tree("iason");
+  std::cout << "Loading tree from " << tree_file << ".tree" << " file...";
+  account.load_tree(tree_file);
   std::cout << " Done." << std::endl;
 
   std::string flow_id;
@@ -39,6 +42,7 @@ int main()
         std::cin >> flow_comment;
         fiman::Flow new_flow(&account.tree[account.id[flow_id]], flow_amount, flow_comment);
         new_flow.print();
+        new_flow.write_to_file(flow_file, new_flow);
         break;
     }
   }

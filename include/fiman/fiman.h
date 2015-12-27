@@ -58,6 +58,7 @@ namespace fiman
     public:
       Flow(fiman::Node *node, float amount_, std::string comment_);
       void print();
+      void write_to_file(std::string file_, fiman::Flow flow_);
       ~Flow();
   };
 
