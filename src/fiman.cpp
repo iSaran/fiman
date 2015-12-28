@@ -45,6 +45,10 @@ namespace fiman
 
     this->number_of_children = 0;
     this->status = 0;
+    if (this->level == 0)
+    {
+      this->global_name = this->name;
+    }
 
     //this->number_of_children = child.size();
   }
@@ -61,6 +65,8 @@ namespace fiman
       parent->child.push_back(this);
       parent->number_of_children = parent->child.size();
       DEBUG("I set my level and now is " << level);
+
+      this->global_name = this->parent->global_name + "/" + this->name;
 
       if (parent->number_of_children < 10)
       {
@@ -80,7 +86,7 @@ namespace fiman
     else
     {
       DEBUG("I created a root node with name " + this->name);
-      this->parent = NULL;
+      this->parent = NULL; // TODO: is this necessary?
     }
   }
 

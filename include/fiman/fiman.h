@@ -29,6 +29,7 @@ namespace fiman
       std::string local_id;
       std::string global_id;
       std::string name;
+      std::string global_name;
       fiman::Node *parent;
       std::vector<fiman::Node*> child;
       int number_of_children;
