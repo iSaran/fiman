@@ -262,6 +262,43 @@ namespace fiman
     }
   }
 
+  void Account::load_flows(std::string file_)
+  {
+    std::cout << "Loading flows from file " << file_ << ".csv" << " file...";
+    std::string path, temp_line;
+
+    /**
+     * Find the path of the file
+     */
+    path = "../resource/" + file_ + ".csv";
+    std::ifstream file(path);
+
+    if (file.is_open())
+    {
+      while(file.good())
+      {
+        fiman::Flow temp_flow;
+        std::getline(file, temp_line);
+        if (temp_line.empty())
+          continue;
+        temp_flow.decode_h_flow(temp_line);
+        this->flow_list.push_back(temp_flow);
+      }
+    }
+    file.close();
+    std::cout << " Done." << std::endl;
+  }
+
+
+  void Account::set_flow_node()
+  {
+    for (int i = 0; i < this->flow_list.size(); i++)
+    {
+      this->flow_list[i].node = &this->tree[this->id[this->flow_list[i].h_fields[1]]];
+    }
+  }
+
+ 
   Flow::Flow(fiman::Node *node_, float amount_, std::string comment_ = "")
   {
     node = node_;
@@ -279,19 +316,58 @@ namespace fiman
     /* Create [h]uman readable amount (with 2 decimals) */
     std::ostringstream stream;
     stream << std::fixed << std::setprecision(2) << this->amount;
-    h_amount = stream.str();
+    this->h_amount = stream.str();
 
     /* Create [h]uman readable flow for writing in csv file */
-    h_flow = this->h_date + "," + this->node->global_id + "," + this->node->name + "," + h_amount + "," + this->comment;
+    h_flow = "";
+    h_fields = {
+      this->h_date,
+      this->node->global_id,
+      this->node->name,
+      this->h_amount,
+      this->comment
+    };
+    this->h_fields_no = this->h_fields.size();
+
+    for (int i = 0; i < this->h_fields_no; i++)
+      h_flow += h_fields[i] + ",";
+    h_flow = h_flow.substr(0, h_flow.size() - 1);
+    std::cout << h_flow << std::endl;
+    //h_flow = this->h_date + "," + this->node->global_id + "," + this->node->name + "," + h_amount + "," + this->comment;
+  }
+
+  Flow::Flow()
+  {
+  }
+
+  void Flow::decode_h_flow(std::string h_flow_)
+  {
+    int start = 0, end = 0;
+
+    for (int i = 0; i < this->h_fields_no; i++)
+    {
+      end = h_flow_.find_first_of(',');
+      this->h_fields.push_back(h_flow_.substr(start, end));
+      h_flow_.erase(start, end+1);
+    }
+
+    this->h_date = this->h_fields[0];
+    this->h_amount = this->h_fields[3];
+    this->comment = this->h_fields[4];
   }
 
   void Flow::print()
   {
-    /* Print [h]uman readable flow */
-    std::cout << h_flow << std::endl;
+    std::cout << "*---- Flow Details Print ----*" << std::endl;
+    std::cout << "* Flow h_date: " << this->h_date << std::endl;
+    std::cout << "* Flow node's global ID: " << this->node->global_id << std::endl;
+    std::cout << "* Flow node's name: " << this->node->name << std::endl;
+    std::cout << "* Flow amount: " << this->h_amount << std::endl;
+    std::cout << "* Flow comment: " << this->comment << std::endl;
+    std::cout << "*----------------------------*" << std::endl;
   }
 
-  void Flow::write_to_file(std::string file_, fiman::Flow flow_)
+  void Flow::write_to_file(std::string file_)
   {
     std::string path = "../resource/" + file_ + ".csv";
     std::ofstream file(path, std::ios::app);
@@ -300,7 +376,7 @@ namespace fiman
 
     if (file.is_open())
     {
-      file << h_flow << std::endl;
+      file << this->h_flow << std::endl;
     }
     file.close();
   }

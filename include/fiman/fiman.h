@@ -47,7 +47,6 @@ namespace fiman
   class Flow
   {
     private:
-      fiman::Node *node;
       std::string comment;
       float amount;
       bool inflow;
@@ -56,10 +55,16 @@ namespace fiman
       std::string h_flow;
       std::string h_amount;
 
+      int h_fields_no = 5;
+
     public:
+      std::vector<std::string> h_fields;
+      fiman::Node *node;
       Flow(fiman::Node *node, float amount_, std::string comment_);
+      Flow();
       void print();
-      void write_to_file(std::string file_, fiman::Flow flow_);
+      void write_to_file(std::string file_);
+      void decode_h_flow(std::string h_flow_);
       ~Flow();
   };
 
@@ -70,12 +75,15 @@ namespace fiman
       std::vector<fiman::Node> tree;
       //std::vector<fiman::Flow> flows;
       std::map<std::string, int> id;
+      std::vector<fiman::Flow> flow_list;
 
       bool file_is_loaded;
 
-
+      void set_flow_node();
       bool load_data(std::string file, std::string name);
       bool load_tree(std::string file);
+      void load_flows(std::string file);
+
       int recognise_dots(std::string &str);
       void print_tree(int level_);
 

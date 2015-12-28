@@ -46,7 +46,7 @@ int main()
         std::cin >> flow_comment;
         fiman::Flow new_flow(&account.tree[account.id[flow_id]], flow_amount, flow_comment);
         new_flow.print();
-        new_flow.write_to_file(flow_file, new_flow);
+        new_flow.write_to_file(flow_file);
         break;
     }
   }
