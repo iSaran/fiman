@@ -59,6 +59,7 @@ namespace fiman
       DEBUG("I push back this to parent's (" + this->parent->name + ")  children");
       DEBUG("My parent has address " << this->parent );
       parent->child.push_back(this);
+      parent->number_of_children = parent->child.size();
       DEBUG("I set my level and now is " << level);
 
       if (parent->number_of_children < 10)
@@ -74,7 +75,6 @@ namespace fiman
       }
       global_id = parent->global_id + local_id;
       DEBUG("I set the global id to "+global_id);
-      parent->number_of_children = parent->child.size();
       DEBUG("I set the number of children of my parent to " << parent->number_of_children);
     }
     else
