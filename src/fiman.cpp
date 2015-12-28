@@ -245,10 +245,15 @@ namespace fiman
     }
   }
 
-  void Account::print_tree()
+  void Account::print_tree(int level_)
   {
     for (int i = 0; i < this->tree.size(); i++)
-      this->tree[i].print_oneliner();
+    {
+      if (tree[i].level <= level_)
+      {
+        this->tree[i].print_oneliner();
+      }
+    }
   }
 
   Flow::Flow(fiman::Node *node_, float amount_, std::string comment_ = "")

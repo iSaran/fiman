@@ -76,7 +76,7 @@ namespace fiman
       bool load_data(std::string file, std::string name);
       bool load_tree(std::string file);
       int recognise_dots(std::string &str);
-      void print_tree();
+      void print_tree(int level_);
 
       Account();
       ~Account();

@@ -2,7 +2,7 @@
 #include <fiman/fiman.h>
 #include <fiman/tools.h>
 
-const std::string tree_file = "iason";
+const std::string tree_file = "template";
 const std::string flow_file = "flows";
 
 int main()
@@ -18,6 +18,8 @@ int main()
   float flow_amount;
   std::string flow_comment;
 
+  int level_;
+
   while(true)
   {
     std::cout << "===== Menu =====" << std::endl;
@@ -31,7 +33,9 @@ int main()
     switch (option)
     {
       case 1:
-        account.print_tree();
+        std::cout << "Insert the level of printing > ";
+        std::cin >> level_;
+        account.print_tree(level_);
         break;
       case 2:
         std::cout << "Insert flow id > ";
