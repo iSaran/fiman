@@ -40,8 +40,7 @@ namespace fiman
       Node(std::string name_, int level_);
       void set_local_id(std::string id);
       void set_parent(fiman::Node *par);
-      void print();
-      void print_oneliner();
+      void print(bool oneliner = false);
   };
 
   class Flow

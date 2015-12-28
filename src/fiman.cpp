@@ -98,8 +98,13 @@ namespace fiman
       global_id = parent->global_id + local_id;
     }
   }
-  void Node::print()
+
+  void Node::print(bool oneliner)
   {
+    if (oneliner)
+      std::cout << this->global_id << "__________" << this->name << std::endl;
+    else
+    {
     if (this->level != 0)
     {
       std::cout << "---- Node Details Print ----" << std::endl;
@@ -131,10 +136,6 @@ namespace fiman
       std::cout << "----------------------------" << std::endl;
     }
   }
-
-  void Node::print_oneliner()
-  {
-    std::cout << this->global_id << "__________" << this->name << std::endl; 
   }
 
   Account::Account()
@@ -257,7 +258,7 @@ namespace fiman
     {
       if (tree[i].level <= level_)
       {
-        this->tree[i].print_oneliner();
+        this->tree[i].print(true);
       }
     }
   }
