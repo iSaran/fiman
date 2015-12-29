@@ -1,24 +1,13 @@
 #ifndef FIMAN_H
 #define FIMAN_H
 
-#include <iostream>
-#include <vector>
-#include <ctime> // tm, time in fiman::Flow
+#include <iostream> // std::cout, std::cin
+#include <vector> // std::vector
+#include <ctime> // std::tm, std::time in fiman::Flow
 #include <map> //std::map in fiman::Account
-
-#include "yaml-cpp/yaml.h"
 
 namespace fiman
 {
-
-  class Owner
-  {
-    public:
-      std::string name;
-      std::string last_name;
-      Owner();
-      ~Owner();
-  };
 
   class Node
   {
@@ -72,14 +61,12 @@ namespace fiman
     public:
       std::string name;
       std::vector<fiman::Node> tree;
-      //std::vector<fiman::Flow> flows;
       std::map<std::string, int> id;
       std::vector<fiman::Flow> flow_list;
 
       bool file_is_loaded;
 
       void set_flow_node();
-      bool load_data(std::string file, std::string name);
       bool load_tree(std::string file);
       void load_flows(std::string file);
 
@@ -89,19 +76,6 @@ namespace fiman
       Account();
       ~Account();
   };
-
-  class FinanceManager
-  {
-    public:
-      FinanceManager();
-      ~FinanceManager();
-      fiman::Owner owner;
-      int set_owner();
-      int get_owner();
-
-      void create_tree();
-  };
-
 
 };
 #endif // FIMAN_H

@@ -1,36 +1,11 @@
 #include <fiman/fiman.h>
 #include <fiman/tools.h>
 #include <iomanip> // std::setprecision Flow::Flow()
-
-#include <fstream>
+#include <sstream> // std::ostringstream Flow::Flow()
+#include <fstream> // std::ifstream, std::ofstream
 
 namespace fiman
 {
-  FinanceManager::FinanceManager() {}
-  FinanceManager::~FinanceManager() {}
-  int FinanceManager::set_owner()
-  {
-    fiman::Owner a;
-    std::string name, last_name;
-    std::cout << "Type the owner's name: ";
-    std::cin >> name;
-    std::cout << "Type the owner's lastname: ";
-    std::cin >> last_name;
-    a.name = name;
-    a.last_name = last_name;
-    this->owner = a;
-    return 0;
-  }
-  int FinanceManager::get_owner()
-  {
-    std::cout << "This manager belongs to " << this->owner.name << " " << this->owner.last_name << std::endl;
-    return 0;
-  }
-  void FinanceManager::create_tree()
-  {
-  }
-  Owner::Owner() {}
-  Owner::~Owner() {}
   Node::Node()
   {
     this->name = "empty_node";
@@ -38,6 +13,7 @@ namespace fiman
     this->number_of_children = -1;
     this->status = 0;
   }
+
   Node::Node(std::string name_, int level_)
   {
     this->name = name_;
@@ -144,38 +120,6 @@ namespace fiman
   }
 
   Account::~Account() {};
-
-  bool Account::load_data(std::string file, std::string name)
-  {
-    if (file_is_loaded)
-    {
-      return false;
-    }
-
-    YAML::Node ynode = YAML::LoadFile(file);
-    if (ynode.IsNull())
-    {
-      std::cout << "YAML file " << file << " not found." << std::endl;
-      return false;
-    }
-
-    //if (ynode["iason"])
-     // std::cout << "yo" << std::endl;
-
-    std::cout << ynode.size() << std::endl;
-   // for (std::size_t i=0;i<primes.size();i++) {
-   //   std::cout << primes[i].as<int>() << "\n";
-   // }
-
-     //YAML::Node spriteNode = ynode[1];
-    // if (spriteNode.IsNull())
-    // {
-    //   std::cout << "Sprite node " << name << " not found." << std::endl;
-    //   return false;
-    // }
-
-    //std::string m_psSpritesheetPath = spriteNode["fds"].as<std::string>();
-  }
 
   int Account::recognise_dots(std::string &str)
   {
@@ -290,7 +234,6 @@ namespace fiman
     std::cout << " Done." << std::endl;
   }
 
-
   void Account::set_flow_node()
   {
     for (int i = 0; i < this->flow_list.size(); i++)
@@ -299,7 +242,6 @@ namespace fiman
     }
   }
 
- 
   Flow::Flow(fiman::Node *node_, float amount_, std::string comment_ = "")
   {
     node = node_;

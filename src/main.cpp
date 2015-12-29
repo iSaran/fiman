@@ -5,7 +5,6 @@
 int main()
 {
   fiman::Account account;
-  DEBUG("FDSFDS");
   account.load_tree("template");
   fiman::Flow input_flow(&account.tree[4], 912.31, "iasonas");
   input_flow.write_to_file("flows");
