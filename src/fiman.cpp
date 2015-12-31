@@ -3,6 +3,7 @@
 #include <iomanip> // std::setprecision Flow::Flow()
 #include <sstream> // std::ostringstream Flow::Flow()
 #include <fstream> // std::ifstream, std::ofstream
+#include <string> // std::string, std::stod
 
 namespace fiman
 {
@@ -78,7 +79,7 @@ namespace fiman
   void Node::print(bool oneliner)
   {
     if (oneliner)
-      std::cout << this->global_id << "__________" << this->name << std::endl;
+      std::cout << this->global_id << "__________(" << this->status << ")" << this->name << std::endl;
     else
     {
     if (this->level != 0)
@@ -239,6 +240,7 @@ namespace fiman
     for (int i = 0; i < this->flow_list.size(); i++)
     {
       this->flow_list[i].node = &this->tree[this->id[this->flow_list[i].h_fields[1]]];
+      this->flow_list[i].node->status += this->flow_list[i].amount;
     }
   }
 
@@ -297,6 +299,8 @@ namespace fiman
     this->h_date = this->h_fields[0];
     this->h_amount = this->h_fields[3];
     this->comment = this->h_fields[4];
+
+    this->amount = std::stod(this->h_amount);
   }
 
   void Flow::print()

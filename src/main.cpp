@@ -14,4 +14,6 @@ int main()
   {
     account.flow_list[i].print();
   }
+  account.print_tree(5);
+  
 }

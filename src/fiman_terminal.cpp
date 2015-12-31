@@ -2,7 +2,7 @@
 #include <fiman/fiman.h>
 #include <fiman/tools.h>
 
-const std::string tree_file = "template";
+const std::string tree_file = "iason111";
 const std::string flow_file = "flows";
 
 int main()

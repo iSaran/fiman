@@ -11,10 +11,8 @@ namespace fiman
 
   class Node
   {
-    private:
-      float status;
-
     public:
+      float status;
       std::string local_id;
       std::string global_id;
       std::string name;
@@ -36,7 +34,6 @@ namespace fiman
   {
     private:
       std::string comment;
-      float amount;
       bool inflow;
       std::tm *date;
       std::string h_date;
@@ -46,6 +43,7 @@ namespace fiman
       int h_fields_no = 5;
 
     public:
+      float amount;
       std::vector<std::string> h_fields;
       fiman::Node *node;
       Flow(fiman::Node *node, float amount_, std::string comment_);
