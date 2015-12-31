@@ -14,6 +14,14 @@ int main()
   account.load_tree(tree_file);
   std::cout << " Done." << std::endl;
 
+  std::cout << "Loading flows from " << flow_file << ".csv" << " file...";
+  account.load_flows("flows");
+  account.set_flow_node();
+  for (int i = 0; i < account.flow_list.size(); i++)
+  {
+    account.flow_list[i].print();
+  }
+
   std::string flow_id;
   float flow_amount;
   std::string flow_comment;
@@ -47,6 +55,8 @@ int main()
         fiman::Flow new_flow(&account.tree[account.id[flow_id]], flow_amount, flow_comment);
         new_flow.print();
         new_flow.write_to_file(flow_file);
+        account.load_flows("flows");
+        account.set_flow_node();
         break;
     }
   }

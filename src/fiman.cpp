@@ -26,6 +26,7 @@ namespace fiman
     {
       this->local_id = this->name.substr(0,1);
       this->global_id = this->local_id;
+      this->global_name = this->name;
     }
 
     //this->number_of_children = child.size();
@@ -269,7 +270,6 @@ namespace fiman
     h_fields = {
       this->h_date,
       this->node->global_id,
-      this->node->name,
       this->h_amount,
       this->comment
     };
@@ -298,8 +298,8 @@ namespace fiman
     }
 
     this->h_date = this->h_fields[0];
-    this->h_amount = this->h_fields[3];
-    this->comment = this->h_fields[4];
+    this->h_amount = this->h_fields[2];
+    this->comment = this->h_fields[3];
 
     this->amount = std::stod(this->h_amount);
   }
@@ -309,7 +309,7 @@ namespace fiman
     std::cout << "*---- Flow Details Print ----*" << std::endl;
     std::cout << "* Flow h_date: " << this->h_date << std::endl;
     std::cout << "* Flow node's global ID: " << this->node->global_id << std::endl;
-    std::cout << "* Flow node's name: " << this->node->name << std::endl;
+    std::cout << "* Flow node's name: " << this->node->global_name << std::endl;
     std::cout << "* Flow amount: " << this->h_amount << std::endl;
     std::cout << "* Flow comment: " << this->comment << std::endl;
     std::cout << "*----------------------------*" << std::endl;
