@@ -24,7 +24,8 @@ namespace fiman
     this->status = 0;
     if (this->level == 0)
     {
-      this->global_name = this->name;
+      this->local_id = this->name.substr(0,1);
+      this->global_id = this->local_id;
     }
 
     //this->number_of_children = child.size();
