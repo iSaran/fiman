@@ -28,6 +28,24 @@ int main()
 
   int level_;
 
+  //std::string line;
+  //while(std::getline(cin, line))
+  //{
+  //  std::istringstream command(line);
+  //  std::string cmd;
+  //  command >> cmd;
+  //  if (cmd == "help" || cmd == "?")
+  //  {
+  //    std::cout << "Commands:" << std::endl;
+  //              << "help - display this help" << std::endl;
+  //              << "print tree" << std::endl;
+  //  }
+  //  else if (cmd == "print tree")
+  //  {
+  //  }
+
+  //}
+
   while(true)
   {
     std::cout << "===== Menu =====" << std::endl;

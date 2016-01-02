@@ -121,6 +121,9 @@ namespace fiman
     /* Set the name of the file associated with the tree */
     this->file = file_;
 
+    /* Tree is not yet loaded */
+    this->is_loaded = false;
+
     /* Load the tree from tree file */
     this->load();
 
@@ -143,6 +146,12 @@ namespace fiman
 
   void Tree::load()
   {
+    if (this->is_loaded)
+    {
+      std::cout << "load tree: the tree is already loaded" << std::endl;
+      return;
+    }
+
     std::vector<std::string> node_names;
     std::string path, temp;
 
@@ -207,6 +216,7 @@ namespace fiman
         }
       }
     }
+    this->is_loaded = true;
   }
 
   void Tree::print(int level_)

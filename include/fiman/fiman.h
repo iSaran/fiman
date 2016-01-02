@@ -60,13 +60,14 @@ namespace fiman
       std::string file;
       int size;
       int max_level;
+      bool is_loaded;
 
     public:
       std::vector<fiman::Node> nodes;
       std::map<std::string, int> id;
 
       Tree(std::string file_);
-      void print(int level_);
+      void print(int level_ = 100);
       void update();
 
       /**
