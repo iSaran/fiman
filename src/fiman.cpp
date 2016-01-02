@@ -294,132 +294,13 @@ namespace fiman
     std::cout << " Done." << std::endl;
   }
 
-  Account::Account()
+  void FlowList::connect_with_node(fiman::Tree *tree_)
   {
-    file_is_loaded = false;
-  }
-
-  Account::~Account() {};
-
-  int Account::recognise_dots(std::string &str)
-  {
-  }
-
-  bool Account::load_tree(std::string file_)
-  {
-    std::vector<std::string> node_names;
-    std::string path, temp;
-
-    /**
-     * Find the path of the file
-     */
-    path = "../resource/" + file_ + ".tree";
-    std::ifstream file(path);
-
-    /**
-     * Read the file and put each line in node_names vector.
-     * Then, close the file.
-     */
-    if (file.is_open())
+    for (int i = 0; i < this->size; i++)
     {
-      while(file.good())
-      {
-        std::getline(file, temp);
-        //std::cout << "Getting line" << temp << std::endl;
-        node_names.push_back(temp);
-      }
-    }
-    file.close();
-
-    /* Clean up the vector from empty lines */
-    fiman::tools::find_empty(node_names);
-
-    int level;
-
-    /**
-     * Parse each element of the node_names vector
-     * as an object fiman::Node
-     */
-    for (int i = 0; i < node_names.size(); i++)
-    {
-      level = fiman::tools::recognise_starting_dots(node_names[i]);
-      fiman::Node temp_node(node_names[i], level);
-      temp_node.tree_id = i;
-      this->tree.push_back(temp_node);
-    }
-
-    /**
-     * Find the level of each node based on starting dots
-     * and remove the dots from the names
-     */
-
-    for (int i = 0; i < this->tree.size(); i++)
-    {
-      if ( this->tree[i].level != 0)
-      {
-        /**
-         * The node's parent can be found if we search the list
-         * of the nodes backwards. The first node whose level is
-         * the node's level minus 1 is its parent
-         */
-        for (int j = i; j >= 0; j--)
-        {
-          if (this->tree[j].level == (this->tree[i].level - 1))
-          {
-            DEBUG("I set the parent of " << tree[i].name << " to be " << tree[j].name);
-            this->tree[i].set_parent(&this->tree[j]);
-            break;
-          }
-        }
-        this->id[tree[i].global_id] = i;
-      }
-    }
-  }
-
-  void Account::print_tree(int level_)
-  {
-    for (int i = 0; i < this->tree.size(); i++)
-    {
-      if (tree[i].level <= level_)
-      {
-        this->tree[i].print(true);
-      }
-    }
-  }
-
-  void Account::load_flows(std::string file_)
-  {
-    std::cout << "Loading flows from file " << file_ << ".csv" << " file...";
-    std::string path, temp_line;
-
-    /**
-     * Find the path of the file
-     */
-    path = "../resource/" + file_ + ".csv";
-    std::ifstream file(path);
-
-    if (file.is_open())
-    {
-      while(file.good())
-      {
-        fiman::Flow temp_flow;
-        std::getline(file, temp_line);
-        if (temp_line.empty())
-          continue;
-        temp_flow.decode_h_flow(temp_line);
-        this->flow_list.push_back(temp_flow);
-      }
-    }
-    file.close();
-    std::cout << " Done." << std::endl;
-  }
-
-  void Account::set_flow_node()
-  {
-    for (int i = 0; i < this->flow_list.size(); i++)
-    {
-      this->flow_list[i].node = &this->tree[this->id[this->flow_list[i].h_fields[1]]];
-      this->flow_list[i].node->status += this->flow_list[i].amount;
+      int node_id = tree_->id[this->flows[i].h_fields[1]];
+      this->flows[i].node = &tree_->nodes[node_id];
+      this->flows[i].node->status += this->flows[i].amount;
     }
   }
 

@@ -97,27 +97,7 @@ namespace fiman
       FlowList(std::string file_);
       void load();
       void print(int last_ = 100);
-  };
-
-  class Account
-  {
-    public:
-      std::string name;
-      std::vector<fiman::Node> tree;
-      std::map<std::string, int> id;
-      std::vector<fiman::Flow> flow_list;
-
-      bool file_is_loaded;
-
-      void set_flow_node();
-      bool load_tree(std::string file);
-      void load_flows(std::string file);
-
-      int recognise_dots(std::string &str);
-      void print_tree(int level_);
-
-      Account();
-      ~Account();
+      void connect_with_node(fiman::Tree *tree_);
   };
 
 };
