@@ -5,8 +5,8 @@
 int main()
 {
   fiman::Account account;
-  fiman::Tree tree("test");
-  tree.load();
+  fiman::Tree tree("iason111");
+  fiman::FlowList flow_list("flows");
   tree.print();
 
   //fiman::Flow input_flow(&account.tree[4], 912.31, "iasonas");

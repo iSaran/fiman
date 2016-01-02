@@ -252,6 +252,48 @@ namespace fiman
     }
   }
 
+  FlowList::FlowList(std::string file_)
+  {
+    /* Set the name of the file associated with the tree */
+    this->file = file_;
+
+    /* FlowList is not yet loaded */
+    this->is_loaded = false;
+
+    /* Load the FlowList from csv file */
+    this->load();
+
+    /* Set the size of the FlowList (number of flows) */
+    this->size = this->flows.size();
+  }
+
+  void FlowList::load()
+  {
+    std::cout << "Loading flows from file " << this->file << ".csv" << " file...";
+    std::string path, temp_line;
+
+    /**
+     * Find the path of the file
+     */
+    path = "../resource/" + this->file + ".csv";
+    std::ifstream file(path);
+
+    if (file.is_open())
+    {
+      while(file.good())
+      {
+        fiman::Flow temp_flow;
+        std::getline(file, temp_line);
+        if (temp_line.empty())
+          continue;
+        temp_flow.decode_h_flow(temp_line);
+        this->flows.push_back(temp_flow);
+      }
+    }
+    file.close();
+    std::cout << " Done." << std::endl;
+  }
+
   Account::Account()
   {
     file_is_loaded = false;

@@ -85,6 +85,20 @@ namespace fiman
       void load();
   };
 
+  class FlowList
+  {
+    private:
+      std::string file;
+      int size;
+      bool is_loaded;
+
+    public:
+      std::vector<fiman::Flow> flows;
+      FlowList(std::string file_);
+      void load();
+      void print(int last_ = 100);
+  };
+
   class Account
   {
     public:
