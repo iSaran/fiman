@@ -54,6 +54,36 @@ namespace fiman
       ~Flow();
   };
 
+  class Tree
+  {
+    private:
+      std::string file;
+      int size;
+      int max_level;
+
+    public:
+      std::vector<fiman::Node> nodes;
+      std::map<std::string, int> id;
+
+      Tree(std::string file_);
+      void print(int level_);
+      void update();
+
+      /**
+       * Loads a fiman::Tree from a file .tree.
+       * The function reads the for each node of the tree: the name and the
+       * level of the node. The level of the nodes is depicted by dots before
+       * the name. So, the function creates a fiman::Node object for each node
+       * based on name and level (calling the constructor of fiman::Node). Then
+       * before the function pushes this fiman::Node into the tree, it sets the
+       * fiman::Node::tree_id depending on the current index of the vector containing
+       * the tree. Finally, it sets the for each node of the tree its parent.
+       * As a last step set the the std::map fiman::Tree::id in order to map
+       * the global id of each node with the index in the std::vector storing the tree.
+       */
+      void load();
+  };
+
   class Account
   {
     public:

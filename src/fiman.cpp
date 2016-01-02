@@ -28,7 +28,6 @@ namespace fiman
       this->global_id = this->local_id;
       this->global_name = this->name;
     }
-
     //this->number_of_children = child.size();
   }
 
@@ -115,6 +114,132 @@ namespace fiman
       std::cout << "----------------------------" << std::endl;
     }
   }
+  }
+
+  Tree::Tree(std::string file_)
+  {
+    /* Set the name of the file associated with the tree */
+    this->file = file_;
+
+    /* Load the tree from tree file */
+    this->load();
+
+    /* Set the size of the tree (number of nodes) */
+    this->size = this->nodes.size();
+
+    this->max_level = 0;
+    for (int i = 0; i < this->size; i++)
+    {
+      /* Set max level of tree (the leaf level) */
+      if (this->nodes[i].level > this->max_level)
+      {
+        this->max_level = this->nodes[i].level;
+      }
+
+      /* Set the mapping between global_id and index in nodes vector */
+      this->id[nodes[i].global_id] = i;
+    }
+  }
+
+  void Tree::load()
+  {
+    std::vector<std::string> node_names;
+    std::string path, temp;
+
+    /* Find the path of the file */
+    path = "../resource/" + this->file + ".tree";
+    std::ifstream file(path);
+
+    /**
+     * Read the file and put each line in node_names vector.
+     * Then, close the file.
+     */
+    if (file.is_open())
+    {
+      while(file.good())
+      {
+        std::getline(file, temp);
+        //std::cout << "Getting line" << temp << std::endl;
+        node_names.push_back(temp);
+      }
+    }
+    file.close();
+
+    /* Clean up the vector from empty lines */
+    fiman::tools::find_empty(node_names);
+
+    int level;
+
+    /**
+     * Parse each element of the node_names vector
+     * as an object fiman::Node
+     */
+    for (int i = 0; i < node_names.size(); i++)
+    {
+      level = fiman::tools::recognise_starting_dots(node_names[i]);
+      fiman::Node temp_node(node_names[i], level);
+      temp_node.tree_id = i;
+      this->nodes.push_back(temp_node);
+    }
+
+    /**
+     * Find the level of each node based on starting dots
+     * and remove the dots from the names
+     */
+
+    for (int i = 0; i < this->nodes.size(); i++)
+    {
+      if ( this->nodes[i].level != 0)
+      {
+        /**
+         * The node's parent can be found if we search the list
+         * of the nodes backwards. The first node whose level is
+         * the node's level minus 1 is its parent
+         */
+        for (int j = i; j >= 0; j--)
+        {
+          if (this->nodes[j].level == (this->nodes[i].level - 1))
+          {
+            DEBUG("I set the parent of " << nodes[i].name << " to be " << nodes[j].name);
+            this->nodes[i].set_parent(&this->nodes[j]);
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  void Tree::print(int level_)
+  {
+    std::cout << "*-------------------- Tree print --------------------*" << std::endl;
+    std::cout << "Associated file: " << this->file << ".tree" << std::endl;
+    std::cout << "Size: " << this->size << " nodes" << std::endl;
+    std::cout << "Leaf level: " << this->max_level << std::endl;
+    std::cout << "Nodes: " << std::endl;
+    for (int i = 0; i < this->size; i++)
+    {
+      if (nodes[i].level <= level_)
+      {
+        this->nodes[i].print(true);
+      }
+    }
+  }
+
+  void Tree::update()
+  {
+    for (int level = this->max_level-1; level >= 0; level--)
+    {
+      for (int node_ = 0; node_ < this->size; node_++)
+      {
+        if (this->nodes[node_].level == level)
+        {
+          for (int child_ = 0; child_ < this->nodes[node_].number_of_children; child_++)
+          {
+            this->nodes[node_].status += this->nodes[node_].child[child_]->status;
+          }
+        }
+      }
+    }
   }
 
   Account::Account()
