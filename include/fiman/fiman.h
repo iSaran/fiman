@@ -12,15 +12,15 @@ namespace fiman
   class Node
   {
     public:
+      std::string name;
+      int level;
+      int number_of_children;
       float status;
       std::string local_id;
       std::string global_id;
-      std::string name;
       std::string global_name;
       fiman::Node *parent;
       std::vector<fiman::Node*> child;
-      int number_of_children;
-      int level;
       int tree_id;
 
       Node();
