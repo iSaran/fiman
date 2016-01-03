@@ -70,15 +70,6 @@ namespace fiman
     }
   }
 
-  void Node::set_local_id(std::string id)
-  {
-    local_id = id;
-    if (parent != NULL)
-    {
-      global_id = parent->global_id + local_id;
-    }
-  }
-
   void Node::print(bool oneliner)
   {
     if (oneliner)
