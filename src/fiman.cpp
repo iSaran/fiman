@@ -80,7 +80,18 @@ namespace fiman
   void Node::print(bool oneliner)
   {
     if (oneliner)
-      std::cout << this->global_id << "__________(" << this->status << ")" << this->name << std::endl;
+    {
+      float max_status = 1249.42;
+      int max_digits = fiman::tools::number_of_digits(max_status);
+      int current_digits = fiman::tools::number_of_digits(this->status);
+      std::cout << this->global_id << "__________€ ";
+      for (int i = 0; i < max_digits - current_digits; i++)
+        std::cout << " ";
+      std::cout << this->status;
+      if (this->status == 0)
+        std::cout << ".00";
+      std::cout  << "___" << this->name << std::endl;
+    }
     else
     {
     if (this->level != 0)

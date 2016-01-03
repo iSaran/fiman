@@ -39,5 +39,29 @@ namespace fiman
       return dot_counter;
     }
 
+    int number_of_digits(float num)
+    {
+      int digits = 0;
+      bool negative = false;
+      if (num < 0)
+      {
+        num = -num;
+        negative = true;
+      }
+      if (num < 10)
+      {
+        digits = 1;
+        return digits;
+      }
+      while(num > 1)
+      {
+        num /= 10;
+        digits++;
+      }
+      if (negative)
+        digits++;
+      return digits;
+    }
+
   }
 }

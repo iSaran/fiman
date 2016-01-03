@@ -18,6 +18,7 @@ namespace fiman
   {
     void find_empty(std::vector<std::string> &vec);
     int recognise_starting_dots(std::string &str);
+    int number_of_digits(float num);
   }
 }
 #endif
