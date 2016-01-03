@@ -68,6 +68,7 @@ namespace fiman
 
       Tree(std::string file_);
       void print(int level_ = 100);
+      void print(std::string cmd);
       void update();
 
       /**

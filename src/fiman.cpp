@@ -31,6 +31,8 @@ namespace fiman
     //this->number_of_children = child.size();
   }
 
+
+
   void Node::set_parent(fiman::Node *parent_)
   {
 
@@ -243,6 +245,58 @@ namespace fiman
       {
         this->nodes[i].print(true);
       }
+    }
+    std::cout << "*----------------------------------------------------*" << std::endl;
+  }
+
+  void Tree::print(std::string cmd)
+  {
+    std::map<std::string, int> command =
+    {
+      {"neg", 1},
+      {"pos", 2}
+    };
+
+    switch (command[cmd])
+    {
+      case 1:
+        std::cout << "*-------------------- Tree print --------------------*" << std::endl;
+        std::cout << "Associated file: " << this->file << ".tree" << std::endl;
+        std::cout << "Size: " << this->size << " nodes" << std::endl;
+        std::cout << "Leaf level: " << this->max_level << std::endl;
+        std::cout << "Nodes: " << std::endl;
+        std::cout << "Printing: " << cmd << std::endl;
+
+        for (int i = 0; i < this->size; i++)
+        {
+          if (nodes[i].status < 0)
+          {
+            this->nodes[i].print(true);
+          }
+        }
+        std::cout << "*----------------------------------------------------*" << std::endl;
+        break;
+
+      case 2:
+        std::cout << "*-------------------- Tree print --------------------*" << std::endl;
+        std::cout << "Associated file: " << this->file << ".tree" << std::endl;
+        std::cout << "Size: " << this->size << " nodes" << std::endl;
+        std::cout << "Leaf level: " << this->max_level << std::endl;
+        std::cout << "Nodes: " << std::endl;
+        std::cout << "Printing: " << cmd << std::endl;
+
+        for (int i = 0; i < this->size; i++)
+        {
+          if (nodes[i].status > 0)
+          {
+            this->nodes[i].print(true);
+          }
+        }
+        std::cout << "*----------------------------------------------------*" << std::endl;
+        break;
+
+      default:
+        std::cout << "tree print: Command " << cmd << " is not exist" << std::endl;
     }
   }
 

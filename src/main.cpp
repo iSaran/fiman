@@ -8,7 +8,8 @@ int main()
   fiman::FlowList flow_list("flows");
   flow_list.connect_with_node(&tree);
   tree.update();
-  tree.print();
+  tree.print("neg");
+  tree.print("32");
 
   //fiman::Flow input_flow(&account.tree[4], 912.31, "iasonas");
   //input_flow.write_to_file("flows");
