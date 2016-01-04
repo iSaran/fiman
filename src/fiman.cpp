@@ -122,6 +122,7 @@ namespace fiman
 
   Tree::Tree(std::string file_)
   {
+    std::cout << "Loading tree from " << file_ << ".tree" << " file...";
     /* Set the name of the file associated with the tree */
     this->file = file_;
 
@@ -146,6 +147,7 @@ namespace fiman
       /* Set the mapping between global_id and index in nodes vector */
       this->id[nodes[i].global_id] = i;
     }
+    std::cout << " Done." << std::endl;
   }
 
   void Tree::load()
@@ -293,6 +295,7 @@ namespace fiman
 
   void Tree::update()
   {
+    std::cout << "Updating the tree depending on the flow list...";
     for (int level = this->max_level-1; level >= 0; level--)
     {
       for (int node_ = 0; node_ < this->size; node_++)
@@ -306,10 +309,12 @@ namespace fiman
         }
       }
     }
+    std::cout << " Done." << std::endl;
   }
 
   FlowList::FlowList(std::string file_)
   {
+    std::cout << "Loading flows from " << file_ << ".csv" << " file...";
     /* Set the name of the file associated with the tree */
     this->file = file_;
 
@@ -321,11 +326,11 @@ namespace fiman
 
     /* Set the size of the FlowList (number of flows) */
     this->size = this->flows.size();
+    std::cout << " Done." << std::endl;
   }
 
   void FlowList::load()
   {
-    std::cout << "Loading flows from file " << this->file << ".csv" << " file...";
     std::string path, temp_line;
 
     /**
@@ -347,17 +352,18 @@ namespace fiman
       }
     }
     file.close();
-    std::cout << " Done." << std::endl;
   }
 
   void FlowList::connect_with_node(fiman::Tree *tree_)
   {
+    std::cout << "Connecting the flow list with the loaded tree...";
     for (int i = 0; i < this->size; i++)
     {
       int node_id = tree_->id[this->flows[i].h_fields[1]];
       this->flows[i].node = &tree_->nodes[node_id];
       this->flows[i].node->status += this->flows[i].amount;
     }
+    std::cout << " Done." << std::endl;
   }
 
   Flow::Flow(fiman::Node *node_, float amount_, std::string comment_ = "")
