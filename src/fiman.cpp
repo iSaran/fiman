@@ -348,6 +348,7 @@ namespace fiman
         if (temp_line.empty())
           continue;
         temp_flow.decode_h_flow(temp_line);
+        temp_flow.list_id = this->flows.size() + 1;
         this->flows.push_back(temp_flow);
       }
     }
@@ -364,6 +365,51 @@ namespace fiman
       this->flows[i].node->status += this->flows[i].amount;
     }
     std::cout << " Done." << std::endl;
+  }
+
+  void FlowList::print(int last)
+  {
+    std::cout << std::endl;
+    std::cout << "*** Flowlist print ***" << std::endl;
+    std::cout << "Associated file: " << this->file << ".tree" << std::endl;
+    for (int i = this->size - 1; i >= this->size - last && i >= 0; i--)
+    {
+      this->flows[i].print(true);
+    }
+    std::cout << std::endl;
+  }
+
+  void FlowList::print(std::string cmd, std::string arg)
+  {
+    std::map<std::string, int> command =
+    {
+      {"last", 1},
+      {"id", 2}
+    };
+
+    switch (command[cmd])
+    {
+      case 1:
+        this->print(std::stoi(arg));
+        break;
+
+      case 2:
+        std::cout << "*** Flowlist print ***" << std::endl;
+        std::cout << "Associated file: " << this->file << ".tree" << std::endl;
+        std::cout << "Printing: " << cmd << std::endl;
+
+        for (int i = 0; i < this->size; i++)
+        {
+          if (this->flows[i].node->global_id == arg)
+          {
+            this->flows[i].print(true);
+          }
+        }
+        break;
+
+      default:
+        std::cout << "flowlist print: Command " << cmd << " is not exist" << std::endl;
+    }
   }
 
   Flow::Flow(fiman::Node *node_, float amount_, std::string comment_ = "")
@@ -424,15 +470,27 @@ namespace fiman
     this->amount = std::stod(this->h_amount);
   }
 
-  void Flow::print()
+  void Flow::print(bool oneliner)
   {
-    std::cout << "*---- Flow Details Print ----*" << std::endl;
-    std::cout << "* Flow h_date: " << this->h_date << std::endl;
-    std::cout << "* Flow node's global ID: " << this->node->global_id << std::endl;
-    std::cout << "* Flow node's name: " << this->node->global_name << std::endl;
-    std::cout << "* Flow amount: " << this->h_amount << std::endl;
-    std::cout << "* Flow comment: " << this->comment << std::endl;
-    std::cout << "*----------------------------*" << std::endl;
+    if (oneliner)
+    {
+      std::cout << this->list_id << ". "
+                << this->h_date << " "
+                << this->h_amount << "€ "
+                << this->node->global_id << " "
+                << this->comment << std::endl
+                << "   " << this->node->global_name << " " << std::endl;
+
+    }
+    else
+    {
+      std::cout << "*---- flow details print ----*" << std::endl;
+      std::cout << "* Flow h_date: " << this->h_date << std::endl;
+      std::cout << "* Flow node's global ID: " << this->node->global_id << std::endl;
+      std::cout << "* Flow node's name: " << this->node->global_name << std::endl;
+      std::cout << "* Flow amount: " << this->h_amount << std::endl;
+      std::cout << "* Flow comment: " << this->comment << std::endl;
+    }
   }
 
   void Flow::write_to_file(std::string file_)

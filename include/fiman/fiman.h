@@ -42,12 +42,13 @@ namespace fiman
       int h_fields_no = 5;
 
     public:
+      int list_id;
       float amount;
       std::vector<std::string> h_fields;
       fiman::Node *node;
       Flow(fiman::Node *node, float amount_, std::string comment_);
       Flow();
-      void print();
+      void print(bool oneliner = false);
       void write_to_file(std::string file_);
       void decode_h_flow(std::string h_flow_);
       ~Flow();
@@ -97,6 +98,7 @@ namespace fiman
       FlowList(std::string file_);
       void load();
       void print(int last_ = 100);
+      void print(std::string cmd, std::string arg);
       void connect_with_node(fiman::Tree *tree_);
   };
 

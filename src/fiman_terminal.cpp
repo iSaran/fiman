@@ -35,8 +35,12 @@ int main()
     {
       std::cout << std::endl;
       std::cout << "Commands:" << std::endl;
-      std::cout << "help - display this help" << std::endl;
-      std::cout << "print tree" << std::endl;
+      std::cout << "help,?:                        display this help" << std::endl;
+      std::cout << "print:                         print data in screen " << std::endl;
+      std::cout << "  - tree:                      print the tree" << std::endl;
+      std::cout << "  - flow,flows,flowlist" << std::endl;
+      std::cout << "     - last [N]:               print the last N flows" << std::endl;
+      std::cout << "     - id [X]:                 print every flow with ID X" << std::endl;
       std::cout << std::endl;
     }
     else if (cmd == "exit" || cmd == "q" || cmd == "quit" || cmd == "x")
@@ -50,6 +54,23 @@ int main()
       {
         command >> cmd;
         tree.print();
+      }
+      else if (cmd == "flow" || cmd == "flows" || cmd == "flowlist")
+      {
+        std::string temp_cmd;
+
+        command >> cmd;
+        temp_cmd = cmd;
+        command >> cmd;
+
+        if (!cmd.empty())
+        {
+          flow_list.print(temp_cmd, cmd);
+        }
+        else
+        {
+          std::cout << "print flowlist " << temp_cmd << ": You have to specify an argument." << std::endl;
+        }
       }
       else
       {
