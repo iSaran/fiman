@@ -10,15 +10,16 @@ int main()
 {
   std::cout << "FiMan is initializing..." << std::endl;
 
+  fiman::Config *config;
   fiman::Tree *tree;
   fiman::FlowList *flow_list;
 
   try
   {
-    tree = new fiman::Tree("iason111");
-    flow_list = new fiman::FlowList("flows");
+    config = new fiman::Config();
+    tree = new fiman::Tree(config->tree_file);
+    flow_list = new fiman::FlowList(config->flow_file);
 
-    static fiman::Config config("config");
     flow_list->connect_with_node(tree);
     tree->update();
   }

@@ -23,7 +23,7 @@ namespace fiman
       std::string tree_file;
       std::string flow_file;
 
-      Config(std::string file_);
+      Config();
       void load();
   };
 

@@ -3,8 +3,11 @@
 
 namespace fiman
 {
-  Config::Config(std::string file_)
+  Config::Config()
   {
+    /* The config file is hardcoded as config.yml in resource dir */
+    std::string file_ = "config";
+
     std::cout << "Loading configuration from " << file_ << ".yml" << " file...";
 
     /* Set the name of the file associated with the tree */
@@ -35,11 +38,12 @@ namespace fiman
 
     if (!config["name"])
       throw yaml_bad_name;
-    if (!config["files"])
+    if (!config["tree_file"] || !config["flow_file"])
       throw yaml_bad_files;
 
     this->name = config["name"].as<std::string>();
-    this->tree_file = config["files"]["tree"].as<std::string>();
+    this->tree_file = config["tree_file"].as<std::string>();
+    this->flow_file = config["flow_file"].as<std::string>();
 
   }
 
