@@ -10,10 +10,26 @@ int main()
 {
   std::cout << "FiMan is initializing..." << std::endl;
 
-  fiman::Tree tree("iason111");
-  fiman::FlowList flow_list("flows");
-  flow_list.connect_with_node(&tree);
-  tree.update();
+  fiman::Config *config;
+  fiman::Tree *tree;
+  fiman::FlowList *flow_list;
+
+  try
+  {
+    config = new fiman::Config();
+    tree = new fiman::Tree(config->tree_file);
+    flow_list = new fiman::FlowList(config->flow_file);
+
+    flow_list->connect_with_node(tree);
+    tree->update();
+  }
+  catch (std::exception& e)
+  {
+    std::cout << "\nErrors during initialization " << std::endl;
+    std::cout << "!!! Error: " << e.what() << std::endl;
+    return 0;
+  }
+
 
   //tree.print("neg");
   //tree.print("32");
@@ -53,7 +69,7 @@ int main()
       if (cmd == "tree")
       {
         command >> cmd;
-        tree.print();
+        tree->print();
       }
       else if (cmd == "flow" || cmd == "flows" || cmd == "flowlist")
       {
@@ -65,7 +81,7 @@ int main()
 
         if (!cmd.empty())
         {
-          flow_list.print(temp_cmd, cmd);
+          flow_list->print(temp_cmd, cmd);
         }
         else
         {
