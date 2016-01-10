@@ -1,5 +1,7 @@
 # FiMan
 
+[![Build Status](https://travis-ci.org/iSaran/fiman.svg?branch=master)](https://travis-ci.org/iSaran/fiman)
+
 ## About
 
 FiMan is a financial manager written in C++, managing the inflows and outflows in a registered account.

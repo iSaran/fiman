@@ -1,0 +1,29 @@
+language:
+  - cpp
+
+compiler:
+  - gcc
+
+sudo: required
+dist: trusty
+
+# Install dependencies (yaml-cpp, boost, cmake, git)
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+      - boost-latest
+    packages:
+      - libboost-all-dev
+      - cmake
+      - git
+
+before_install:
+  # Clone, build and install yaml-cpp project
+  - git clone https://github.com/jbeder/yaml-cpp.git ~/yaml-cpp
+  - mkdir ~/yaml-cpp/build && cd ~/yaml-cpp/build && cmake .. && make && sudo make install && cd -
+
+install: true
+script:
+  # Build fiman
+  - mkdir build && cd build && cmake .. && make
